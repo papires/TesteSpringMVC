@@ -25,19 +25,19 @@ public class ProdutosController {
 
 	@Autowired
 	private ProdutoDAO dao;
-
+	
 	@RequestMapping("form")
-	public ModelAndView form() {
-		ModelAndView modelAndView = new ModelAndView("produtos/form");
-		modelAndView.addObject("tipos", TipoPreco.values());
-		return modelAndView;
+	public ModelAndView form(Produto produto) {
+	    ModelAndView modelAndView = new ModelAndView("produtos/form");
+	    modelAndView.addObject("tipos", TipoPreco.values());
+	    return modelAndView;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView gravar(@Valid Produto produto, BindingResult result, 
 			RedirectAttributes redirectAttributes) {
 	    if (result.hasErrors()) {
-	        return form();
+	        return form(produto);
 	    }
 		dao.gravar(produto);
 		redirectAttributes.addFlashAttribute("sucesso", "Produto cadastrado com sucesso!");
