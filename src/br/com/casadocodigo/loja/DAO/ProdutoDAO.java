@@ -19,13 +19,8 @@ import br.com.casadocodigo.loja.models.TipoPreco;
 @Transactional
 public class ProdutoDAO {
 
-    @Autowired
-    private ProdutoDAO produtoDao;
-
     @PersistenceContext
     private EntityManager manager;
-
-
     
     @RequestMapping("form")
     public ModelAndView form() {
