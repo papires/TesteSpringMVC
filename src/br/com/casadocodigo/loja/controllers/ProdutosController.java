@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,28 +26,26 @@ import br.com.casadocodigo.loja.validation.ProdutoValidation;
 @RequestMapping("/produtos")
 public class ProdutosController {
 
-    @Autowired
-    private FileSaver fileSaver;
+	@Autowired
+	private FileSaver fileSaver;
 	@Autowired
 	private ProdutoDAO dao;
-	
+
 	@RequestMapping("form")
 	public ModelAndView form(Produto produto) {
-	    ModelAndView modelAndView = new ModelAndView("produtos/form");
-	    modelAndView.addObject("tipos", TipoPreco.values());
-	    return modelAndView;
+		ModelAndView modelAndView = new ModelAndView("produtos/form");
+		modelAndView.addObject("tipos", TipoPreco.values());
+		return modelAndView;
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView gravar(MultipartFile sumario, 
-			@Valid Produto produto, 
-			BindingResult result, 
+	public ModelAndView gravar(MultipartFile sumario, @Valid Produto produto, BindingResult result,
 			RedirectAttributes redirectAttributes) {
-	    if (result.hasErrors()) {
-	        return form(produto);
-	    }
-        String path = fileSaver.write("arquivos-sumario", sumario);
-        produto.setSumarioPath(path);
+		if (result.hasErrors()) {
+			return form(produto);
+		}
+		String path = fileSaver.write("arquivos-sumario", sumario);
+		produto.setSumarioPath(path);
 
 		dao.gravar(produto);
 		redirectAttributes.addFlashAttribute("sucesso", "Produto cadastrado com sucesso!");
@@ -60,6 +59,18 @@ public class ProdutosController {
 		modelAndView.addObject("produtos", produtos);
 		return modelAndView;
 	}
+
+	
+	@RequestMapping("/detalhe/{id}")
+	public ModelAndView detalhe(@PathVariable("id") Integer id){
+
+	    ModelAndView modelAndView = new ModelAndView("/produtos/detalhe");
+	    Produto produto = dao.find(id);
+	    modelAndView.addObject("produto", produto);
+
+	    return modelAndView;
+	}
+
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {

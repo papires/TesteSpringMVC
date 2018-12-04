@@ -1,10 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset=UTF-8>
-<title>Livros de Java, Android, iPhone, PHP, Ruby e muito mais - Casa do Código</title>
+<title>Livros de Java, Android, iPhone, PHP, Ruby e muito mais -
+	Casa do Código</title>
 </head>
 <body>
 	<h1>Lista de Produtos</h1>
@@ -17,7 +19,9 @@
 		</tr>
 		<c:forEach items="${produtos}" var="produto">
 			<tr>
-				<td>${produto.titulo}</td>
+				<td><a
+					href="/CasaTeste/produtos/detalhe/${produto.id}">${produto.titulo}</a>
+				</td>
 				<td>${produto.descricao}</td>
 				<td>${produto.paginas}</td>
 			</tr>

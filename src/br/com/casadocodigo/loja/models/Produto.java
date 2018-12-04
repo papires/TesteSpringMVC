@@ -24,6 +24,12 @@ public class Produto {
 	private Calendar dataLancamento;
 	private String sumarioPath;
 
+	
+	
+	public int getId() {
+		return id;
+	}
+	
 	@ElementCollection
 	private List<Preco> precos;
 
